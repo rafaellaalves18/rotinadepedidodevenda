@@ -1,0 +1,43 @@
+unit u_principal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus;
+
+type
+  TFrmPrincipal = class(TForm)
+    MainMenu1: TMainMenu;
+    Cadastros1: TMenuItem;
+    Cidade1: TMenuItem;
+    Cliente1: TMenuItem;
+    CadastrodeProdutos1: TMenuItem;
+    Vendas1: TMenuItem;
+    PedidodeVenda1: TMenuItem;
+    procedure PedidodeVenda1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmPrincipal: TFrmPrincipal;
+
+implementation
+
+{$R *.dfm}
+
+uses u_Pedidovenda;
+
+procedure TFrmPrincipal.PedidodeVenda1Click(Sender: TObject);
+begin
+  if not Assigned(FrmPedidoVenda) then
+     FrmPedidoVenda := TFrmPedidoVenda.Create(self);
+  FrmPedidoVenda.showModal;
+  FreeAndNil(FrmPedidoVenda);
+
+end;
+
+end.

@@ -1,0 +1,25 @@
+unit u_DMBancodeDados;
+
+interface
+
+uses
+  System.SysUtils, System.Classes;
+
+type
+  TDmBancodeDados = class(TDataModule)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  DmBancodeDados: TDmBancodeDados;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+end.

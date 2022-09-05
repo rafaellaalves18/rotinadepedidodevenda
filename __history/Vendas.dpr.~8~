@@ -1,0 +1,18 @@
+program Vendas;
+
+uses
+  Vcl.Forms,
+  u_principal in 'u_principal.pas' {FrmPrincipal},
+  u_DMBancodeDados in 'u_DMBancodeDados.pas' {DmBancodeDados: TDataModule},
+  u_Pedidovenda in 'u_Pedidovenda.pas' {FrmPedidoVenda},
+  u_Pesquisa in 'u_Pesquisa.pas' {FrmPesquisa};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TFrmPrincipal, FrmPrincipal);
+  Application.CreateForm(TDmBancodeDados, DmBancodeDados);
+  Application.Run;
+end.

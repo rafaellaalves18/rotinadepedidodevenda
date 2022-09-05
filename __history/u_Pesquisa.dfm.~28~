@@ -1,0 +1,106 @@
+object FrmPesquisa: TFrmPesquisa
+  Left = 0
+  Top = 0
+  ClientHeight = 312
+  ClientWidth = 587
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnActivate = FormActivate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object TPanel
+    Left = 0
+    Top = 0
+    Width = 587
+    Height = 312
+    Align = alClient
+    BevelOuter = bvNone
+    TabOrder = 0
+    object dxStatusBar1: TdxStatusBar
+      Left = 0
+      Top = 292
+      Width = 587
+      Height = 20
+      Panels = <>
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+    end
+    object gridItens: TDBGrid
+      Left = 32
+      Top = 85
+      Width = 482
+      Height = 201
+      DataSource = DsLK
+      TabOrder = 1
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+      OnDblClick = gridItensDblClick
+    end
+    object EdProcura: TEdit
+      Left = 32
+      Top = 56
+      Width = 320
+      Height = 21
+      TabOrder = 2
+      Text = 'EdProcura'
+    end
+    object Panel1: TPanel
+      Left = 0
+      Top = 0
+      Width = 587
+      Height = 41
+      Align = alTop
+      Caption = 'Pesquisa'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = 14449176
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 3
+    end
+  end
+  object btnpesquisar: TBitBtn
+    Left = 358
+    Top = 54
+    Width = 75
+    Height = 25
+    Caption = 'Pesquisar'
+    TabOrder = 1
+    OnClick = btnpesquisarClick
+  end
+  object BitBtn1: TBitBtn
+    Left = 439
+    Top = 54
+    Width = 75
+    Height = 25
+    Caption = 'OK'
+    TabOrder = 2
+    OnClick = BitBtn1Click
+  end
+  object qrSQL: TFDQuery
+    Connection = DmBancodeDados.Conexao
+    Left = 472
+    Top = 200
+  end
+  object dsconsulta: TDataSource
+    DataSet = qrSQL
+    Left = 528
+    Top = 200
+  end
+  object DsLK: TDataSource
+    Left = 544
+    Top = 136
+  end
+end

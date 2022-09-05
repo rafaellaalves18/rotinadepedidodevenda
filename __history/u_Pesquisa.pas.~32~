@@ -1,0 +1,220 @@
+unit u_Pesquisa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, cxGraphics, cxControls,
+  cxLookAndFeels, cxLookAndFeelPainters, dxStatusBar, Data.DB, Vcl.StdCtrls,
+  Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client;
+
+
+
+type
+  TFrmPesquisa = class(TForm)
+    dxStatusBar1: TdxStatusBar;
+    gridItens: TDBGrid;
+    EdProcura: TEdit;
+    btnpesquisar: TBitBtn;
+    qrSQL: TFDQuery;
+    cbFiltro: TComboBox;
+    cbCAMPOS: TComboBox;
+    Panel1: TPanel;
+    dsconsulta: TDataSource;
+    edtRetorno: TEdit;
+    BitBtn1: TBitBtn;
+    DsLK: TDataSource;
+    procedure btnpesquisarClick(Sender: TObject);
+    procedure gridItensDblClick(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+
+
+
+  private
+    { Private declarations }
+    cCampos, cCampoRetorno, cTabela : string;
+  public
+    { Public declarations }
+    iColunaPesquisar : Integer;
+    GSqlFiltro, GSqlFiltroPersistente, GSqlCampos : string;
+    GFiltraTabela: boolean;
+    constructor Create(AOwner : TComponent; par_lstCampos : Array of string;par_cTabela, par_cCampoResult :string);
+  end;
+
+
+
+var
+  Tabela,Coluna, GTabela: String;
+  FrmPesquisa: TFrmPesquisa;
+  Query  : TFDQuery;
+  GCamposChave : array[0..8] of String;
+
+implementation
+
+
+
+
+{$R *.dfm}
+
+uses u_DMBancodeDados;
+
+procedure TFrmPesquisa.BitBtn1Click(Sender: TObject);
+var
+  i, k : integer;
+begin
+   If (DsLK.DataSet.RecordCount > 0) then
+      begin
+         i := 0;
+         while i < 9 do
+               begin
+                  for k := DsLK.DataSet.FieldCount-1 downto 0  do
+                      if UpperCase(DsLK.DataSet.Fields.Fields[K].FieldName) = UpperCase(GCamposChave[i]) then
+                         GCamposChave[i] := DsLK.DataSet.FieldByName(GCamposChave[i]).AsString
+                      ;
+                  ;
+                  Inc(i);
+               end
+         ;
+      end
+   ;
+   If DsLK.DataSet.RecordCount <> 0 then
+      FrmPesquisa.Close
+   else
+      abort
+   ;
+
+end;
+
+
+
+procedure TFrmPesquisa.btnpesquisarClick(Sender: TObject);
+var
+   i : Integer;
+   coluna_original : String;
+begin
+
+        // GSqlFiltro  := 'where ';
+        // i := pos('WHERE',UpperCase(GSqlFiltroPersistente));
+         if i = 1 then
+            delete(GSqlFiltroPersistente, i, 5);
+
+
+         If Length(Trim(GSqlFiltroPersistente)) > 0 then
+            GSqlFiltro := GSqlFiltro + GSqlFiltroPersistente + ' and ';
+
+         coluna_original := Coluna;
+         if (GFiltraTabela) and (Tabela <> '') then
+            Coluna := Tabela+'.'+Coluna;
+
+       {  if (trim(EdProcura.Text) = '%') THEN
+            GSqlFiltro := GSqlFiltro + 'upper((' + (Coluna) + '))' + ' like upper('
+         else
+            GSqlFiltro := GSqlFiltro +Coluna + '='  ;
+
+         If (trim(EdProcura.Text) = '%') then
+            GSqlFiltro := GSqlFiltro + EdProcura.Text + '%' + ')'
+         else
+            GSqlFiltro := GSqlFiltro + quotedStr(FormatDateTime('dd/mmm/yy',StrToDate(EdProcura.Text))) ;
+                }
+         if (Length(Trim(GSqlCampos)) = 0) then
+            GSqlCampos := '*';
+
+
+
+         Query.Sql.Clear;
+        Query.Sql.Add('select ' + GSqlCampos  + ' from ' + GTabela + ' ' + GSqlFiltro  );
+
+     Query.close;
+     Query.open;
+
+         DsLK.DataSet.Last;
+         DsLK.DataSet.First;
+         Query.Last;
+         Query.First;
+         if Query.RecordCount > 0 then
+            gridItens.SetFocus
+         else
+            EdProcura.SetFocus;
+
+
+{if qrSQL.Active then
+     qrSQL.Close;
+  with qrSQL.SQL do
+      begin
+        Clear;
+        add('Select '+cCampos);
+        add('from '+cTabela);
+        add('where '+trim(cbCAMPOS.Text)+' like :cParametro');
+      end;
+  if cbFiltro.Text = 'PARTE' then
+     qrSQL.ParamByName('cParametro').AsString := '%'+trim(edtBusca.Text)+'%'
+  else if cbFiltro.Text = 'INICIO' then
+     qrSQL.ParamByName('cParametro').AsString := trim(edtBusca.Text)+'%'
+  else if cbFiltro.Text = 'IGUAL' then
+     qrSQL.ParamByName('cParametro').AsString := trim(edtBusca.Text) ;
+  qrSQL.Open;  }
+end;
+
+constructor TFrmPesquisa.Create(AOwner : TComponent; par_lstCampos : Array of string;par_cTabela, par_cCampoResult :string);
+var
+ n : Integer;
+begin
+{  inherited Create(AOwner);
+  DmBancodeDados.Conexao.Open;
+  cCampoRetorno := par_cCampoResult;
+  cCampos:='';
+  cbCAMPOS.Clear;
+  cTabela := par_cTabela;
+  for n := 0 to Length(par_lstCampos) -1 do
+     begin
+       cbCAMPOS.Items.Add(par_lstCampos[n]) ;
+       if n = 0 then
+         cCampos := par_lstCampos[n]
+       else
+         cCampos := cCampos +','+ par_lstCampos[n]  ;
+     end;
+     cbCAMPOS.ItemIndex := 1;
+  if qrSQL.Active then
+     qrSQL.Close;
+  with qrSQL.SQL do
+      begin
+        Clear;
+        add('Select '+cCampos);
+        add('from '+cTabela)
+      end;
+  qrSQL.Open;     }
+
+end;
+
+procedure TFrmPesquisa.gridItensDblClick(Sender: TObject);
+begin
+{  edtRetorno.Clear;
+  edtRetorno.Text := qrSQL.FieldByName(cCampoRetorno).AsVariant;
+  qrSQL.Close;
+  DmBancodeDados.Conexao.Close;
+  frmPesquisa.ModalResult := mrYes;}
+end;
+
+procedure TFrmPesquisa.FormActivate(Sender: TObject);
+begin
+(DsLK.DataSet as TFDQuery).Cancel;
+  (DsLK.DataSet as TFDQuery).First;
+  Coluna             := DsLK.DataSet.Fields[iColunaPesquisar].FieldName;
+  Tabela := (dsLK.DataSet as TFDQuery).FieldList.Fields[iColunaPesquisar].Origin;
+
+Query:=TFDQuery.Create(nil);
+Query.Connection := dMBancodeDados.conexao;
+
+end;
+
+end.
+procedure TFrmPesquisa.FormActivate(Sender: TObject);
+begin
+
+end;
+
+

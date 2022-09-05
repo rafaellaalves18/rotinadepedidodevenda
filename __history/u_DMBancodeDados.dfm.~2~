@@ -1,0 +1,16 @@
+object DmBancodeDados: TDmBancodeDados
+  OldCreateOrder = False
+  Height = 224
+  Width = 294
+  object Conexao: TFDConnection
+    ConnectionName = 'BD_Vendas'
+    Params.Strings = (
+      'User_Name=root'
+      'Password=123456'
+      'Database=bdvendas'
+      'DriverID=MySQL')
+    LoginPrompt = False
+    Left = 128
+    Top = 96
+  end
+end
