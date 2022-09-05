@@ -106,7 +106,7 @@ begin
          if (GFiltraTabela) and (Tabela <> '') then
             Coluna := Tabela+'.'+Coluna;
 
-       {  if (trim(EdProcura.Text) = '%') THEN
+         if (trim(EdProcura.Text) = '%') THEN
             GSqlFiltro := GSqlFiltro + 'upper((' + (Coluna) + '))' + ' like upper('
          else
             GSqlFiltro := GSqlFiltro +Coluna + '='  ;
@@ -114,23 +114,19 @@ begin
          If (trim(EdProcura.Text) = '%') then
             GSqlFiltro := GSqlFiltro + EdProcura.Text + '%' + ')'
          else
-            GSqlFiltro := GSqlFiltro + quotedStr(FormatDateTime('dd/mmm/yy',StrToDate(EdProcura.Text))) ;
-                }
+            GSqlFiltro := GSqlFiltro + (EdProcura.Text) ;
+
          if (Length(Trim(GSqlCampos)) = 0) then
             GSqlCampos := '*';
 
 
-
+         Query.close;
          Query.Sql.Clear;
-        Query.Sql.Add('select ' + GSqlCampos  + ' from ' + GTabela + ' ' + GSqlFiltro  );
+         Query.Sql.Add('select ' + GSqlCampos  + ' from ' + GTabela + ' ' + GSqlFiltro  );
+         Query.open;
 
-     Query.close;
-     Query.open;
+         DsLK.DataSet := Query;
 
-         DsLK.DataSet.Last;
-         DsLK.DataSet.First;
-         Query.Last;
-         Query.First;
          if Query.RecordCount > 0 then
             gridItens.SetFocus
          else

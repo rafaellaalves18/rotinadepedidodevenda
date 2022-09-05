@@ -152,7 +152,6 @@ begin
    BtnAlterar.Enabled  := false;
    cdsPedidoProdutoTemp.edit;
    cdsPedidoTemp.edit;
-
 end;
 
 procedure TFrmPedidoVenda.btnalterarprodClick(Sender: TObject);
@@ -168,7 +167,7 @@ begin
    BtnAlterar.Enabled  := false;
    BtnSalvar.Enabled   := false;
    Localizar.Enabled   := true;
-   tab.ActivePage     :=  TabDet;
+   tab.ActivePage      :=  TabDet;
    cdsPedidoTemp.EmptyDataSet;
    cdsPedidoProdutoTemp.EmptyDataSet;
 end;
@@ -208,14 +207,7 @@ begin
          abort;
       end;
       end;
-
-      pnlpedido.Enabled   := false ;
-      TabItens.Enabled    := false ;
-      BtnNovo.Enabled     := true;
-      BtnAlterar.Enabled  := false;
-      Localizar.Enabled   := true;
-      cdsPedidoTemp.EmptyDataSet;
-      cdsPedidoProdutoTemp.EmptyDataSet;
+      BtnCancelarClick(nil);
    end;
 end;
 
@@ -235,8 +227,9 @@ begin
    qryconsulta_prod.sql.clear;
    qryconsulta_prod.sql.add (' SELECT * FROM PRODUTOS ');
    qryconsulta_prod.open;
-   GCamposChave[0]:='ID_PRODUTO';
-   GTabela        := 'PRODUTOS';
+   GCamposChave[0]       :='ID_PRODUTO';
+   GTabela               := 'PRODUTOS';
+   GSqlFiltroPersistente := '';
    Application.CreateForm(TFrmPesquisa, FrmPesquisa);
    FrmPesquisa.DsLK.DataSet := qryconsulta_prod;
    FrmPesquisa.ShowModal;
@@ -377,7 +370,7 @@ try
       qryAtualizaPedido.close;
       qryAtualizaPedido.sql.clear;
       qryAtualizaPedido.sql.text := ' update pedidos set id_cliente = '+cdsPedidoTempcodigo_cliente.AsString +
-                                    ' , valor_total = '+ FloatTostr(cdsPedidoTempvalor_total.AsFloat)+
+                                    ' , valor_total = '+ StringReplace(FloatTostr(cdsPedidoTempvalor_total.AsFloat),',','.',[rfReplaceAll])+
                                     '  where numero_ped = '+ cdsPedidoTempnumero_pedido.AsString;
       qryAtualizaPedido.ExecSQL;
 
@@ -393,6 +386,7 @@ try
          with qryAddprodpedidos do
          begin
             close;
+            ParamByName('NUMERO_PED').Value         :=  cdsPedidoTempnumero_pedido.AsString;
             ParamByName('COD_PRODUTO').Value        :=  cdsPedidoProdutoTempcodigo_produto.AsString;
             ParamByName('QUANTIDADE').Value         :=  cdsPedidoProdutoTempquantidade.AsFloat;
             ParamByName('VALOR_UNITARIO').Value     :=  cdsPedidoProdutoTempvalor_unitario.AsFloat;
@@ -411,9 +405,6 @@ try
       ShowMessage( ' Problemas ao gravar o pedido!'+e.message);
       abort;
    end;
-
-
-
 end;
    BtnCancelarClick(nil);
 end;
@@ -463,13 +454,14 @@ procedure TFrmPedidoVenda.griditenspedidoKeyDown(Sender: TObject; var Key: Word;
 begin
  if Key = VK_DELETE then
  begin
-       if (MessageBox(Handle, ' Confirma a exclusão do produto?', 'ATENÇÃO', MB_YESNO+MB_ICONQUESTION+MB_DEFBUTTON2) = IDYES) then
-       begin
-         cdsPedidoProdutoTemp.Delete;
-       end
+     if (MessageBox(Handle, ' Confirma a exclusão do produto?', 'ATENÇÃO', MB_YESNO+MB_ICONQUESTION+MB_DEFBUTTON2) = IDYES) then
+     begin
+       cdsPedidoProdutoTemp.Delete;
+     end
   end;
   if Key = 13 then
   begin
+    cdsPedidoProdutoTemp.edit;
     edtqtdade.SetFocus;
   end;
 
@@ -506,14 +498,31 @@ begin
       cdsPedidoTempdata.AsString                    := qyconsultaPedidos.FieldByName('DATA').AsString;
       cdsPedidoTemp.post;
 
-      cdsPedidoProdutoTemp.Insert;
-      cdsPedidoProdutoTempcodigo_produto.AsString    := qyconsultaPedidos.FieldByName('COD_PRODUTO').AsString;
-      cdsPedidoProdutoTempdescricao_produto.AsString := qyconsultaPedidos.FieldByName('produto').AsString;
-      cdsPedidoProdutoTempvalor_unitario.AsFloat     := qyconsultaPedidos.FieldByName('VALOR_UNITARIO').AsFloat;
-      cdsPedidoProdutoTempvalor_total.AsFloat        := qyconsultaPedidos.FieldByName('VALOR_UNITARIO').AsFloat;
-      cdsPedidoProdutoTempnumero_pedido.AsString     := qyconsultaPedidos.FieldByName('NUMERO_PED').AsString;
-      cdsPedidoProdutoTempquantidade.AsFloat         := qyconsultaPedidos.FieldByName('quantidade').AsFloat;
-      cdsPedidoProdutoTemp.Post;
+      qyconsultaPedidos.Close;
+      qyconsultaPedidos.sql.clear;
+      qyconsultaPedidos.sql.add (' select p.numero_ped, p.data, p.id_cliente, pp.cod_produto, pp.quantidade,      ');
+      qyconsultaPedidos.sql.add ('  pp.valor_unitario, pp.valor_total, c.cidade, c.uf, C.NOME, pr.nome as produto ');
+      qyconsultaPedidos.sql.add ('from pedidos p, pedidos_produtos pp, clientes c , produtos pr                   ');
+      qyconsultaPedidos.sql.add (' where pp.id_ped = p.numero_ped                                                 ');
+      qyconsultaPedidos.sql.add (' and c.ID_CLI = p.id_cliente                                                    ');
+      qyconsultaPedidos.sql.add (' and pr.id_produto = pp.cod_produto                                             ');
+      qyconsultaPedidos.sql.add (' and p.numero_ped ='+ cdsPedidoTempnumero_pedido.AsString);
+      qyconsultaPedidos.open;
+
+      qyconsultaPedidos.last;
+      qyconsultaPedidos.first;
+      while not qyconsultaPedidos.Eof do
+      begin
+         cdsPedidoProdutoTemp.Insert;
+         cdsPedidoProdutoTempcodigo_produto.AsString    := qyconsultaPedidos.FieldByName('COD_PRODUTO').AsString;
+         cdsPedidoProdutoTempdescricao_produto.AsString := qyconsultaPedidos.FieldByName('produto').AsString;
+         cdsPedidoProdutoTempvalor_unitario.AsFloat     := qyconsultaPedidos.FieldByName('VALOR_UNITARIO').AsFloat;
+         cdsPedidoProdutoTempvalor_total.AsFloat        := qyconsultaPedidos.FieldByName('VALOR_UNITARIO').AsFloat;
+         cdsPedidoProdutoTempnumero_pedido.AsString     := qyconsultaPedidos.FieldByName('NUMERO_PED').AsString;
+         cdsPedidoProdutoTempquantidade.AsFloat         := qyconsultaPedidos.FieldByName('quantidade').AsFloat;
+         cdsPedidoProdutoTemp.Post;
+         qyconsultaPedidos.Next;
+      end;
       Calcula_total;
       BtnAlterar.Enabled  := true;
       BtnExcluir.Enabled  := true;
@@ -549,7 +558,7 @@ begin
    end;
    cdsPedidoTemp.edit;
    cdsPedidoTempvalor_total.AsFloat  := cValor_total;
-   cdsPedidoTemp.post;
+
 end;
 
 

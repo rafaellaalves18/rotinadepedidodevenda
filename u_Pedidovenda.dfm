@@ -3,7 +3,7 @@ object FrmPedidoVenda: TFrmPedidoVenda
   Top = 0
   Caption = 'Pedido de Venda'
   ClientHeight = 541
-  ClientWidth = 708
+  ClientWidth = 715
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,21 +23,21 @@ object FrmPedidoVenda: TFrmPedidoVenda
   object tab: TPageControl
     Left = 0
     Top = 41
-    Width = 708
+    Width = 715
     Height = 391
     ActivePage = TabDet
     Align = alClient
     MultiLine = True
     TabOrder = 0
-    ExplicitWidth = 1111
+    ExplicitWidth = 708
     object TabDet: TTabSheet
       Caption = 'Dados do Pedido/Cliente'
       ImageIndex = 1
-      ExplicitWidth = 1103
+      ExplicitWidth = 700
       object GroupBox2: TGroupBox
         Left = 0
         Top = 0
-        Width = 700
+        Width = 707
         Height = 363
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
@@ -47,7 +47,7 @@ object FrmPedidoVenda: TFrmPedidoVenda
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitWidth = 1103
+        ExplicitWidth = 700
         object Label12: TLabel
           Left = 32
           Top = 21
@@ -270,7 +270,7 @@ object FrmPedidoVenda: TFrmPedidoVenda
       Caption = 'Itens do Pedido'
       Enabled = False
       ImageIndex = 2
-      ExplicitWidth = 1103
+      ExplicitWidth = 700
       object Label14: TLabel
         Left = 16
         Top = 16
@@ -501,11 +501,11 @@ object FrmPedidoVenda: TFrmPedidoVenda
   object GroupBox1: TGroupBox
     Left = 0
     Top = 432
-    Width = 708
+    Width = 715
     Height = 89
     Align = alBottom
     TabOrder = 1
-    ExplicitWidth = 1111
+    ExplicitWidth = 708
     object BtnNovo: TBitBtn
       Left = 36
       Top = 18
@@ -779,7 +779,7 @@ object FrmPedidoVenda: TFrmPedidoVenda
   object dxStatusBar1: TdxStatusBar
     Left = 0
     Top = 521
-    Width = 708
+    Width = 715
     Height = 20
     Panels = <>
     Font.Charset = DEFAULT_CHARSET
@@ -787,12 +787,12 @@ object FrmPedidoVenda: TFrmPedidoVenda
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    ExplicitWidth = 1111
+    ExplicitWidth = 708
   end
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 708
+    Width = 715
     Height = 41
     Align = alTop
     BevelOuter = bvNone
@@ -804,7 +804,7 @@ object FrmPedidoVenda: TFrmPedidoVenda
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 3
-    ExplicitWidth = 1111
+    ExplicitWidth = 708
   end
   object qrypedidos: TFDQuery
     Connection = DmBancodeDados.FDConnection
