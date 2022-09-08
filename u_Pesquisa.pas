@@ -4,18 +4,16 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, cxGraphics, cxControls,
-  cxLookAndFeels, cxLookAndFeelPainters, dxStatusBar, Data.DB, Vcl.StdCtrls,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.StdCtrls,
   Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client;
+  FireDAC.Comp.Client, Vcl.ComCtrls;
 
 
 
 type
   TFrmPesquisa = class(TForm)
-    dxStatusBar1: TdxStatusBar;
     DsLK: TDataSource;
     Panel2: TPanel;
     EdProcura: TEdit;
@@ -23,6 +21,7 @@ type
     btnok: TBitBtn;
     gridItens: TDBGrid;
     Panel1: TPanel;
+    StatusBar1: TStatusBar;
     procedure btnpesquisarClick(Sender: TObject);
     procedure btnokClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);

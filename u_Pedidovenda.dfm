@@ -3,7 +3,7 @@ object FrmPedidoVenda: TFrmPedidoVenda
   Top = 0
   Caption = 'Pedido de Venda'
   ClientHeight = 541
-  ClientWidth = 715
+  ClientWidth = 701
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,22 +23,24 @@ object FrmPedidoVenda: TFrmPedidoVenda
   object tab: TPageControl
     Left = 0
     Top = 41
-    Width = 715
-    Height = 391
+    Width = 701
+    Height = 392
     ActivePage = TabDet
     Align = alClient
     MultiLine = True
     TabOrder = 0
-    ExplicitWidth = 708
+    ExplicitWidth = 715
+    ExplicitHeight = 391
     object TabDet: TTabSheet
       Caption = 'Dados do Pedido/Cliente'
       ImageIndex = 1
-      ExplicitWidth = 700
+      ExplicitWidth = 707
+      ExplicitHeight = 363
       object GroupBox2: TGroupBox
         Left = 0
         Top = 0
-        Width = 707
-        Height = 363
+        Width = 693
+        Height = 364
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = 15841406
@@ -47,7 +49,8 @@ object FrmPedidoVenda: TFrmPedidoVenda
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitWidth = 700
+        ExplicitWidth = 707
+        ExplicitHeight = 363
         object Label12: TLabel
           Left = 32
           Top = 21
@@ -270,7 +273,8 @@ object FrmPedidoVenda: TFrmPedidoVenda
       Caption = 'Itens do Pedido'
       Enabled = False
       ImageIndex = 2
-      ExplicitWidth = 700
+      ExplicitWidth = 707
+      ExplicitHeight = 363
       object Label14: TLabel
         Left = 16
         Top = 16
@@ -500,12 +504,13 @@ object FrmPedidoVenda: TFrmPedidoVenda
   end
   object GroupBox1: TGroupBox
     Left = 0
-    Top = 432
-    Width = 715
+    Top = 433
+    Width = 701
     Height = 89
     Align = alBottom
     TabOrder = 1
-    ExplicitWidth = 708
+    ExplicitTop = 432
+    ExplicitWidth = 715
     object BtnNovo: TBitBtn
       Left = 36
       Top = 18
@@ -776,23 +781,10 @@ object FrmPedidoVenda: TFrmPedidoVenda
       OnClick = BtnSairClick
     end
   end
-  object dxStatusBar1: TdxStatusBar
-    Left = 0
-    Top = 521
-    Width = 715
-    Height = 20
-    Panels = <>
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ExplicitWidth = 708
-  end
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 715
+    Width = 701
     Height = 41
     Align = alTop
     BevelOuter = bvNone
@@ -803,8 +795,18 @@ object FrmPedidoVenda: TFrmPedidoVenda
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
     ParentFont = False
-    TabOrder = 3
-    ExplicitWidth = 708
+    TabOrder = 2
+    ExplicitWidth = 715
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 522
+    Width = 701
+    Height = 19
+    Panels = <>
+    ExplicitLeft = 4
+    ExplicitTop = 529
+    ExplicitWidth = 1296
   end
   object qrypedidos: TFDQuery
     Connection = DmBancodeDados.FDConnection

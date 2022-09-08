@@ -2,7 +2,7 @@ object FrmPesquisa: TFrmPesquisa
   Left = 0
   Top = 0
   ClientHeight = 419
-  ClientWidth = 742
+  ClientWidth = 738
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,34 +17,24 @@ object FrmPesquisa: TFrmPesquisa
   object TPanel
     Left = 0
     Top = 0
-    Width = 742
-    Height = 419
+    Width = 738
+    Height = 400
     Align = alClient
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 0
-    object dxStatusBar1: TdxStatusBar
-      Left = 0
-      Top = 399
-      Width = 742
-      Height = 20
-      Panels = <>
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = []
-    end
+    ExplicitHeight = 419
     object Panel2: TPanel
       Left = 0
       Top = 41
-      Width = 742
-      Height = 358
+      Width = 738
+      Height = 359
       Align = alClient
       BevelOuter = bvNone
       Color = clWindow
       ParentBackground = False
-      TabOrder = 1
+      TabOrder = 0
+      ExplicitHeight = 358
       object EdProcura: TEdit
         Left = 32
         Top = 16
@@ -88,7 +78,7 @@ object FrmPesquisa: TFrmPesquisa
     object Panel1: TPanel
       Left = 0
       Top = 0
-      Width = 742
+      Width = 738
       Height = 41
       Align = alTop
       Caption = 'Pesquisa'
@@ -98,8 +88,18 @@ object FrmPesquisa: TFrmPesquisa
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-      TabOrder = 2
+      TabOrder = 1
     end
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 400
+    Width = 738
+    Height = 19
+    Panels = <>
+    ExplicitLeft = 376
+    ExplicitTop = 224
+    ExplicitWidth = 0
   end
   object DsLK: TDataSource
     Left = 544

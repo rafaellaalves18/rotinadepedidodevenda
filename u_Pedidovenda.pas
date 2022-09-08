@@ -4,13 +4,12 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, cxGraphics, cxControls,
-  cxLookAndFeels, cxLookAndFeelPainters, dxStatusBar, RxCurrEdit, Vcl.ExtCtrls,
-  Vcl.DBCtrls, RxToolEdit, Vcl.Mask, Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB,  Vcl.ExtCtrls,
+  Vcl.DBCtrls, Vcl.Mask, Vcl.StdCtrls, Vcl.Buttons, Vcl.Grids,
   Vcl.DBGrids, Vcl.ComCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, RxDBCtrl, Datasnap.DBClient;
+  FireDAC.Comp.Client,  Datasnap.DBClient, RxToolEdit, RxDBCtrl;
 
 type
   TFrmPedidoVenda = class(TForm)
@@ -38,7 +37,6 @@ type
     BtnAlterar: TBitBtn;
     BtnExcluir: TBitBtn;
     BtnSair: TBitBtn;
-    dxStatusBar1: TdxStatusBar;
     qrypedidos: TFDQuery;
     dsPedidos: TDataSource;
     qryconsulta: TFDQuery;
@@ -103,6 +101,7 @@ type
     btnalterarprod: TBitBtn;
     qryAtualizaPedido: TFDQuery;
     qryaux: TFDQuery;
+    StatusBar1: TStatusBar;
     procedure BtnSairClick(Sender: TObject);
     procedure BtnNovoClick(Sender: TObject);
     procedure btnpesquisaClick(Sender: TObject);
